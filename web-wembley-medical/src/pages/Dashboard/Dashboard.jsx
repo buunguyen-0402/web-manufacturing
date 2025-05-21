@@ -395,7 +395,6 @@ function Dashboard() {
     }, [lineData])
     return (
         <div className=" relative flex flex-col h-[200%] w-full justify-between">
-            <h1>xi chao</h1>
             <Card className={cl(" relative h-[49.5%] w-full")}>
                 <Card
                     className={
