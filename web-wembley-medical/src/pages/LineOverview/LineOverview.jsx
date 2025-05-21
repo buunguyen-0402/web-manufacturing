@@ -223,7 +223,7 @@ function LineOverview() {
                                     totalData && totalData["goodProduct"] ? totalData.goodProduct : 0,
                                     totalData && totalData["defectCount"] ? totalData.defectCount : 0,
                                 ]}
-                                fontSize={"1.8rem"}
+                                fontSize={"1.2rem"}
                                 nameY={false}
                                 colors={[
                                     "rgba(1, 0, 140, 0.8)",

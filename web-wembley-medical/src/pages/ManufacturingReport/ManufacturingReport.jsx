@@ -625,7 +625,7 @@ function ManufacturingReport() {
                                     dataChartTime={eachData[0]}
                                 />
                             )}
-                            {modeInfor === 6 && (
+                            {/* {modeInfor === 6 && (
                                 <div>
                                     <Table
                                         activable
@@ -699,7 +699,7 @@ function ManufacturingReport() {
                                         // }}
                                     />
                                 </div>
-                            )}
+                            )} */}
                         </div>
                     </div>
                 </Card>
