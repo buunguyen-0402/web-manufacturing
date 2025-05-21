@@ -78,21 +78,20 @@ function OrderDetails() {
             callApi(
                 [
                     machineApi.shots.getWorkOrderShotAndInterval(param.workOrderId, minute),
-                    machineApi.workOrders.getErrorByWorkOrderId(param.workOrderId),
+                    // machineApi.workOrders.getErrorByWorkOrderId(param.workOrderId),
                 ],
 
                 (res) => {
                     setEachData(handleManufacturingFilterData(res[0].data))
-                    const formatData = handleDataError(res[1].data)
-                    setErrorTable(formatData)
-                    setErrorNameList(formatData.map((res) => res.stationId))
-                    setErrorDataList(formatData.map((res) => res.totalError))
-                    setErrorTimeList(formatData.map((res) => Number(res.totalErrorTimeStation).toFixed(0)))
+                    // const formatData = handleDataError(res[1].data)
+                    // setErrorTable(formatData)
+                    // setErrorNameList(formatData.map((res) => res.stationId))
+                    // setErrorDataList(formatData.map((res) => res.totalError))
+                    // setErrorTimeList(formatData.map((res) => Number(res.totalErrorTimeStation).toFixed(0)))
                 },
             )
         }
     }, [minute])
-
     const handleDetails = (row, index) => {
         // console.log(index)
         navigate("/paramater-setting")
@@ -191,7 +190,7 @@ function OrderDetails() {
             )
         } else toast.error("Cập nhật thất bại")
     }
-
+    console.log("eachData", eachData)
     return (
         <>
             <div className=" h-full w-full flex flex-col justify-around text-[1.2rem] font-medium">
@@ -440,7 +439,7 @@ function OrderDetails() {
                         <IoMdCloseCircleOutline />
                     </Button>
                     <div className=" h-full w-full flex justify-between">
-                        <div className=" h-full w-[74%] flex flex-col">
+                        <div className=" h-full w-[100%] flex flex-col">
                             <div className=" h-[8%] w-full flex justify-around items-center">
                                 <h3>Thông số trong quá trình sản xuất của lệnh:</h3>
                                 <h4>{workOrderProperties ? workOrderProperties.workOrderCode : ""}</h4>
@@ -497,7 +496,7 @@ function OrderDetails() {
                                             dataChartTime={eachData[0]}
                                         />
                                     )}
-                                    {modeInfor === 6 && (
+                                    {/* {modeInfor === 6 && (
                                         <div>
                                             <Table
                                                 activable
@@ -571,11 +570,11 @@ function OrderDetails() {
                                                 // }}
                                             />
                                         </div>
-                                    )}
+                                    )} */}
                                 </div>
                             </div>
                         </div>
-                        <div className=" h-[90%] w-[0.2%] bg-primary-1"></div>
+                        {/* <div className=" h-[90%] w-[0.2%] bg-primary-1"></div>
                         <div className=" h-full w-[25%] flex flex-col items-center">
                             <h2>Chỉnh sửa thông tin cuối cùng</h2>
                             <TextInput
@@ -598,7 +597,7 @@ function OrderDetails() {
                             />
 
                             <Button onClick={handleChangeData}> Xác nhận</Button>
-                        </div>
+                        </div> */}
                     </div>
                 </Card>
             )}

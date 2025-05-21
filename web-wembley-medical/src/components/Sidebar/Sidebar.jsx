@@ -4,7 +4,7 @@ import cl from "classnames"
 // import { BsArrowBarLeft, BsArrowBarRight } from "react-icons/bs"
 import { SIDEBAR_ITEMS_DASHBOARD } from "@/utils/menuNavigation"
 import SidebarItem from "./SidebarItem"
-import logo from "@/assets/WembleyLogo.png"
+import logo from "@/assets/HCMUT_vientrang.png"
 
 function Sidebar({ id }) {
     const [isExpand, setIsExpand] = useState(false)
@@ -35,11 +35,8 @@ function Sidebar({ id }) {
             onMouseEnter={() => setIsExpand(true)}
             onMouseLeave={handleCloseSidebar}
         >
-            <div
-                className="mx-auto aspect-square w-full cursor-pointer flex justify-center items-center rounded-xl bg-neutron-4 sm:w-1/2"
-                onClick={() => handleClick("/")}
-            >
-                {/* <img src={logo} alt="" /> */}
+            <div className="" onClick={() => handleClick("/")}>
+                <img src={logo} alt="" />
             </div>
             <div className={cl("sticky top-1/3 xxl:top-0")}>
                 {SIDEBAR_ITEMS_DASHBOARD.map((item, index) => (

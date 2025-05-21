@@ -91,21 +91,6 @@ function Dashboard() {
 
     const { connection } = useContext(ThemeContext)
 
-    // useEffect(() => {
-    //     callApi(
-    //         () => authorizationApi.role.getRole(),
-    //         (res) => {
-    //             const filter = res.data.find((res) => String(res.roleName) === user.role).pages
-    //             setAcceptRole(
-    //                 filter.find(
-    //                     (res) =>
-    //                         String(res.name) === "Quản lý lệnh sản xuất" || String(res.name) === "Tất cả các trang",
-    //                 ),
-    //             )
-    //         },
-    //     )
-    // }, [])
-
     const fetchData = useCallback(() => {
         callApi(
             [
@@ -130,6 +115,7 @@ function Dashboard() {
                 setLine(res[1].data.map((res) => ({ lineId: res.lineId })))
                 setAllWorkOrder(res[2].data)
                 setInProgressWorkOrder(handleInProgressWorkOrder(res[3].data.workOrders))
+                setData(res[3].data)
             },
 
             (res) => toast.error(`Lỗi nhận dữ liệu từ server: ${res.response.data.detail}`),
@@ -393,6 +379,7 @@ function Dashboard() {
             })
         }, 500)
     }, [lineData])
+    console.log(data)
     return (
         <div className=" relative flex flex-col h-[200%] w-full justify-between">
             <Card className={cl(" relative h-[49.5%] w-full")}>
@@ -566,14 +553,8 @@ function Dashboard() {
                     {lineIdData &&
                         lineIdData.map((res, index) => (
                             <div
-                                className={cl(
-                                    "h-[45%] w-[49%] flex items-center p-1 rounded-xl shadow-inner1 justify-center ",
-                                    ColorStatus[
-                                        data && data[res.lineId + "_machineStatus"]
-                                            ? Number(data[res.lineId + "_machineStatus"].TagValue)
-                                            : 5
-                                    ].color,
-                                )}
+                                className={cl("h-[49%] w-[49%] flex items-center   justify-center ")}
+                                onClick={() => navigate(`/lineOverview/${res.lineId}`)}
                             >
                                 <Card
                                     className={cl(
@@ -603,18 +584,31 @@ function Dashboard() {
                                                 dataChartX={["Cỡ lô", "Sản xuất", "Đạt", "Lỗi"]}
                                                 dataChartValue={[
                                                     sizeWorkOrder[res.lineId] ? sizeWorkOrder[res.lineId] : 0,
-                                                    data && data[res.lineId + "_productCount"]
-                                                        ? data[res.lineId + "_productCount"].TagValue
+                                                    data && data.workOrders.find((item) => item.lineId === res.lineId)
+                                                        ? data.workOrders.find((item) => item.lineId === res.lineId)
+                                                              .productCount
                                                         : 0,
-                                                    data && data[res.lineId + "_goodProduct"]
-                                                        ? data[res.lineId + "_goodProduct"].TagValue
+                                                    data && data.workOrders.find((item) => item.lineId === res.lineId)
+                                                        ? data.workOrders.find((item) => item.lineId === res.lineId)
+                                                              .goodProduct
                                                         : 0,
-                                                    data &&
-                                                    data[res.lineId + "_productCount"] &&
-                                                    data[res.lineId + "_goodProduct"]
-                                                        ? data[res.lineId + "_productCount"].TagValue -
-                                                          data[res.lineId + "_goodProduct"].TagValue
+                                                    data && data.workOrders.find((item) => item.lineId === res.lineId)
+                                                        ? data.workOrders.find((item) => item.lineId === res.lineId)
+                                                              .defectCount
                                                         : 0,
+
+                                                    // data && data[res.lineId + "_productCount"]
+                                                    //     ? data[res.lineId + "_productCount"].TagValue
+                                                    //     : 0,
+                                                    // data && data[res.lineId + "_goodProduct"]
+                                                    //     ? data[res.lineId + "_goodProduct"].TagValue
+                                                    //     : 0,
+                                                    // data &&
+                                                    // data[res.lineId + "_productCount"] &&
+                                                    // data[res.lineId + "_goodProduct"]
+                                                    //     ? data[res.lineId + "_productCount"].TagValue -
+                                                    //       data[res.lineId + "_goodProduct"].TagValue
+                                                    //     : 0,
                                                 ]}
                                                 colors={[
                                                     "rgba(1, 0, 140, 0.8)",
@@ -625,7 +619,7 @@ function Dashboard() {
                                             />
                                         </div>
                                         <div className=" relative h-full w-[50%] flex flex-col gap-[5%] overflow-y-scroll">
-                                            <Card
+                                            {/* <Card
                                                 className={cl(
                                                     " absolute right-0 top-0 w-[25%] h-[19%] flex justify-center items-center font-bold text-[1.2rem] cursor-pointer hover:border-4 hover:border-accent-1",
                                                     ColorStatus[
@@ -643,7 +637,7 @@ function Dashboard() {
                                                             : 5
                                                     ].name
                                                 }
-                                            </Card>
+                                            </Card> */}
                                             <div className=" h-[9%] w-full flex">
                                                 <h6>Mã ref:</h6>
                                                 <h7>

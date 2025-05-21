@@ -63,7 +63,7 @@ export const toggleErrorLineMachine = [
     "THỜI GIAN LỖI KỸ THUẬT",
     "SỐ LỖI SẢN PHẨM",
 ]
-export const toggleManufacturing = ["TẤT CẢ", "NĂNG SUẤT", "A", "P", "Q", "OEE", "LỖI"]
+export const toggleManufacturing = ["TẤT CẢ", "NĂNG SUẤT", "A", "P", "Q", "OEE"]
 
 export const enableStationVBT01 = [
     { name: "TUBE_LIFT", TagName: "TUBE_LIFT" },

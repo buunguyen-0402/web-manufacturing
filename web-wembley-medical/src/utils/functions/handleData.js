@@ -216,12 +216,12 @@ export const handleMachineOverviewFilterData = (data) => {
 
 export const handleManufacturingFilterData = (data) => {
     const toFixedData = handleOeeData(data)
-    const name = data.map((res) => res.timestamp.slice(0, 18))
-    const productivity = data.map((res) => ({ x: convertDateFormatForReport(res.timestamp), y: res.productivity }))
-    const a = data.map((res) => ({ x: convertDateFormatForReport(res.timestamp), y: (res.a * 100).toFixed(1) }))
-    const p = data.map((res) => ({ x: convertDateFormatForReport(res.timestamp), y: (res.p * 100).toFixed(1) }))
-    const q = data.map((res) => ({ x: convertDateFormatForReport(res.timestamp), y: (res.q * 100).toFixed(1) }))
-    const oee = data.map((res) => ({ x: convertDateFormatForReport(res.timestamp), y: (res.oee * 100).toFixed(1) }))
+    const name = data.map((res) => res.timeStamp.slice(0, 18))
+    const productivity = data.map((res) => ({ x: convertDateFormatForReport(res.timeStamp), y: res.productivity }))
+    const a = data.map((res) => ({ x: convertDateFormatForReport(res.timeStamp), y: (res.a * 100).toFixed(1) }))
+    const p = data.map((res) => ({ x: convertDateFormatForReport(res.timeStamp), y: (res.p * 100).toFixed(1) }))
+    const q = data.map((res) => ({ x: convertDateFormatForReport(res.timeStamp), y: (res.q * 100).toFixed(1) }))
+    const oee = data.map((res) => ({ x: convertDateFormatForReport(res.timeStamp), y: (res.oee * 100).toFixed(1) }))
     return [toFixedData, name, productivity, a, p, q, oee]
 }
 
@@ -351,7 +351,7 @@ export const handleOeeData = (data) => {
         const convertSeconds = convertToSecond(item.totalRunTime)
         return {
             ...item,
-            timestamp: convertDateFormatForReport(item.timestamp),
+            timestamp: convertDateFormatForReport(item.timeStamp),
             totalOnTime: convertToHourRenderName(convertSecond),
             totalRunTime: convertToHourRenderName(convertSeconds),
             a: (item.a * 100).toFixed(2),
