@@ -117,7 +117,7 @@ function ChiefManufacturingReport() {
     const handleSearch = () => {
         callApi(
             () =>
-                machineApi.workOrders.getWorkOrdersByLineManagerAndStartTimeAndEndTime(
+                machineApi.workOrders.getWorkOrdersByLineIdAndStartTimeAndEndTime(
                     lineManager,
                     expectedStartTime,
                     expectedEndTime,
@@ -248,7 +248,7 @@ function ChiefManufacturingReport() {
                         colors={{
                             status: {
                                 "Hoàn thành": "bg-[rgba(60,179,113,0.85)] rounded-lg",
-                                "Chờ xử lý": "bg-[rgba(233,34,34,0.85)] rounded-lg",
+                                "Chờ xác nhận": "bg-[rgba(233,34,34,0.85)] rounded-lg",
                                 "Đang tiến hành": "bg-[rgba(0,155,250,0.85)] rounded-lg",
                                 "Tạm dừng": "bg-[rgba(250,175,36,0.85)] rounded-lg",
                             },

@@ -574,30 +574,6 @@ function OrderDetails() {
                                 </div>
                             </div>
                         </div>
-                        {/* <div className=" h-[90%] w-[0.2%] bg-primary-1"></div>
-                        <div className=" h-full w-[25%] flex flex-col items-center">
-                            <h2>Chỉnh sửa thông tin cuối cùng</h2>
-                            <TextInput
-                                id="Tổng sản lượng sản xuất"
-                                label="Tổng sản lượng sản xuất"
-                                value={totalProductCount}
-                                setValue={setTotalProductCount}
-                                // isError={validateUsername}
-                                // setValidateRows={setValidate}
-                                className={" h-[8%]"}
-                            />
-                            <TextInput
-                                id="Sản lượng lỗi"
-                                label="Sản lượng lỗi"
-                                value={totalDefectCount}
-                                setValue={setTotalDefectCount}
-                                // isError={validateUsername}
-                                // setValidateRows={setValidate}
-                                className={" h-[8%]"}
-                            />
-
-                            <Button onClick={handleChangeData}> Xác nhận</Button>
-                        </div> */}
                     </div>
                 </Card>
             )}

@@ -157,12 +157,12 @@ export const getProductionData = (lineList) => [
                 label: "Tên sản phẩm",
                 isError: validateRequiredField,
             },
-            {
-                id: "idealProductivity",
-                type: "text",
-                label: "Năng suất kế hoạch",
-                isError: validateRequiredField,
-            },
+            // {
+            //     id: "idealProductivity",
+            //     type: "text",
+            //     label: "Năng suất kế hoạch",
+            //     isError: validateRequiredField,
+            // },
         ],
     },
 ]

@@ -83,7 +83,8 @@ function ParamaterSettingProduct() {
 
     const handleDeleteProduct = () => {
         const productId = activedItem.productId
-        const productName = activedItem.productName
+        const productName = activedItem.name
+        console.log(activedItem, productId, productName)
         setDeleteConfirm({
             actived: true,
             title: "Xác nhận xóa sản phẩm " + productName,

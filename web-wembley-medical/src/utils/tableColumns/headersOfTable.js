@@ -645,3 +645,40 @@ export const dailyReport_headers = [
         disableSortBy: false,
     },
 ]
+export const manuHistoryShot_headers = [
+    {
+        Header: "Lệnh sản xuất",
+        accessor: "workOrderCode",
+        disableSortBy: false,
+    },
+    {
+        Header: "Tổng sản lượng",
+        accessor: "productCount",
+        disableSortBy: false,
+    },
+    {
+        Header: "Sảm lượng đạt",
+        accessor: "goodProduct",
+        disableSortBy: false,
+    },
+    {
+        Header: "Sảm lượng lỗi",
+        accessor: "defectCount",
+        disableSortBy: false,
+    },
+    {
+        Header: "Thời gian máy ON",
+        accessor: "totalOnTime",
+        disableSortBy: false,
+    },
+    {
+        Header: "Thời gian máy OFF",
+        accessor: "totalStoppingTime",
+        disableSortBy: false,
+    },
+    {
+        Header: "Thời gian cập nhật",
+        accessor: "timeStamp",
+        disableSortBy: false,
+    },
+]

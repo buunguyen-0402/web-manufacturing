@@ -117,7 +117,7 @@ const machineApi = {
         postWorkOrderLastShot: async (data) => axiosClient.post(`api/WorkOrders/update-last-shot`, data),
         patchStatusWorkOrders: async (id, data) => axiosClient.patch(`/api/WorkOrders`, data),
         patchWorkOrders: async (data) => axiosClient.patch(`/api/WorkOrders`, data),
-        deleteWorkOrders: async (id) => axiosClient.delete(`/api/WorkOrders?WorkOrderId=${id}`),
+        deleteWorkOrders: async (id, data) => axiosClient.delete(`/api/WorkOrders?WorkOrderId=${id}`),
         postWorkOrderShot: async (data) => axiosClient.post(`/api/Shots`, data),
     },
     tagId: {
@@ -141,6 +141,9 @@ const machineApi = {
         getWorkOrderShotAndInterval: async (workOrderId, minute) =>
             axiosClient.get(`api/Shots?WorkOrderId=${workOrderId}&Interval=${minute}`),
         getWorkOrderShotById: async (workOrderId) => axiosClient.get(`api/Shots?WorkOrderId=${workOrderId}`),
+        patchShots: async (data) => axiosClient.patch(`api/Shots`, data),
+        getWorkOrderShotByIdAndStartTimeAndEndTime: async (workOrderId, startTime, endTime) =>
+            axiosClient.get(`api/Shots?WorkOrderId=${workOrderId}&StartTime=${startTime}&EndTime=${endTime}`),
     },
     mfcs: {
         getMFCsByStationId: async (stationId) => axiosClient.get(`api/Mfcs?StationId=${stationId}`),

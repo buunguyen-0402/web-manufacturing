@@ -5,15 +5,15 @@ import Button from "@/components/Button"
 import { useCallback, useState, useEffect } from "react"
 import { useCallApi } from "@/hooks"
 import DateInput from "@/components/DateInput"
-import {
-    convertDateFormatForReport,
-    convertOverDayDateFormatRender,
-    timeStringToSeconds,
-    secondsToTimeString,
-} from "@/utils/functions"
+import { timeStringToSeconds, secondsToTimeString } from "@/utils/functions"
 import { authorizationApi, machineApi } from "@/services/api"
 import { toast } from "react-toastify"
-import { set } from "date-fns"
+import { IoMdCloseCircleOutline } from "react-icons/io"
+import Table from "@/components/Table"
+import { manuHistoryShot_headers } from "@/utils/tableColumns"
+import usePoperMenuNew from "@/hooks/usePoperMenuNew"
+import PoperMenuNew from "@/components/PoperMenuNew"
+import { editShots } from "@/utils/menuNavigation/updated"
 
 function UpdatedData() {
     const callApi = useCallApi()
@@ -43,6 +43,12 @@ function UpdatedData() {
         return now.toISOString().slice(0, 16)
     })
     const [latestShot, setLatestShot] = useState()
+    const [isOpenPopup, setIsOpenPopup] = useState(false)
+    const [tableData, setTableData] = useState([])
+    const [activedItem, setActivedItem] = useState(null)
+    const { active, position, handleClose, handleOpen } = usePoperMenuNew(400)
+    const [initValue, setInitValue] = useState() // dùng để chứa data đang chỉnh sửa, nếu = null thì đang tạo mục mới; undefined là bình thường
+    const [control, setControl] = useState(false)
     const fectchData = useCallback(() => {
         callApi(
             [
@@ -79,7 +85,33 @@ function UpdatedData() {
                 },
             )
         }
-    }, [curWorkOrder])
+    }, [curWorkOrder, control])
+    useEffect(() => {
+        if (isOpenPopup && curWorkOrder) {
+            callApi(
+                () => machineApi.shots.getWorkOrderShotAndInterval(curWorkOrder.workOrderId),
+                (res) => {
+                    setTableData(
+                        res.data.map((item) => {
+                            return {
+                                ...item,
+                                workOrderCode: curWorkOrder.workOrderCode,
+                                goodProduct: item.productCount - item.defectCount,
+                                totalStoppingTime: secondsToTimeString(
+                                    timeStringToSeconds(item.totalOnTime) - timeStringToSeconds(item.totalRunTime),
+                                ),
+                                // timeStamp: convertOverDayDateFormatRender(item.timeStamp),
+                            }
+                        }),
+                    )
+                },
+                "Truy xuất thành công",
+                (res) => {
+                    toast.error(res.response)
+                },
+            )
+        }
+    }, [isOpenPopup, control])
     const handleAddShot = () => {
         callApi(
             () =>
@@ -91,7 +123,9 @@ function UpdatedData() {
                     totalStoppingTime: totalStoppingTime,
                     timeStamp: timeStamp,
                 }),
-            (res) => {},
+            (res) => {
+                setControl(!control)
+            },
             "Cập nhật thông tin thành công",
             (res) => toast.error(res.response),
         )
@@ -119,6 +153,38 @@ function UpdatedData() {
             (res) => {
                 toast.error(res.response)
             },
+        )
+    }
+    const handleTableRowClick = (row, index) => {
+        const activedRow = tableData[index]
+        setActivedItem(activedRow)
+    }
+    const handleEdit = (e) => {
+        setInitValue({ info: activedItem })
+        handleOpen(e)
+    }
+    const handleSubmit = (value) => {
+        let data
+        let callApiFunction
+        let successMessage
+
+        data = value.info
+        console.log(data)
+        callApiFunction = machineApi.shots.patchShots({
+            shotId: activedItem.shotId,
+            productCount: Number(data.productCount),
+            defectCount: Number(data.productCount) - Number(data.goodProduct),
+            totalOntime: data.totalOnTime,
+            totalStoppingTime: data.totalStoppingTime,
+            timeStamp: data.timeStamp,
+        })
+        successMessage = "Chỉnh sửa line máy thành công"
+        callApi(
+            () => callApiFunction,
+            () => {
+                setControl(!control)
+            },
+            successMessage,
         )
     }
     return (
@@ -175,7 +241,7 @@ function UpdatedData() {
                         <h7>{curWorkOrder ? curWorkOrder.status : ""}</h7>
                     </div>
                     <div className=" w-[20%] h-[80%] flex justify-around items-center">
-                        <h6>Sản lượng: </h6>
+                        <h6>Sản lượng dự kiến: </h6>
                         <h7>{curWorkOrder ? curWorkOrder.size : ""}</h7>
                     </div>
                 </div>
@@ -226,25 +292,25 @@ function UpdatedData() {
                     <Button onClick={handleAddShot}>Cập nhật thông tin</Button>
                 </Card>
                 <Card className="w-[49%] h-full justify-between items-center p-2">
-                    <h2 className=" text-center">Thông số gần đây</h2>
-                    <div className=" h-[90%] w-full flex flex-col justify-around">
-                        <div className=" w-full h-full flex items-center border-b-2 border-primary-3">
-                            <p className=" w-[25%]">Tổng sản lượng</p>
-                            <h7 className=" w-[75%]">{latestShot ? latestShot.productCount : ""}</h7>
+                    <div className=" h-full w-full flex flex-col justify-between  items-center">
+                        <h2 className=" text-center">Thông số gần đây</h2>
+                        <div className=" w-full   flex items-center border-b-2 border-primary-3">
+                            <p className=" w-[30%]">Tổng sản lượng</p>
+                            <h7 className=" w-[70%]">{latestShot ? latestShot.productCount : ""}</h7>
                         </div>
-                        <div className=" w-full h-full flex items-center border-b-2 border-primary-3">
-                            <p className=" w-[25%]">Sản phẩm đạt</p>
-                            <h7 className=" w-[75%]">
+                        <div className=" w-full  flex items-center border-b-2 border-primary-3">
+                            <p className=" w-[30%]">Sản phẩm đạt</p>
+                            <h7 className=" w-[70%]">
                                 {latestShot ? latestShot.productCount - latestShot.defectCount : ""}
                             </h7>
                         </div>
-                        <div className=" w-full h-full flex items-center border-b-2 border-primary-3">
-                            <p className=" w-[25%]">Thời gian máy ON</p>
-                            <h7 className=" w-[75%]">{latestShot ? latestShot.totalRunTime : ""}</h7>
+                        <div className=" w-full  flex items-center border-b-2 border-primary-3">
+                            <p className=" w-[30%]">Thời gian máy ON</p>
+                            <h7 className=" w-[70%]">{latestShot ? latestShot.totalRunTime : ""}</h7>
                         </div>
-                        <div className=" w-full h-full flex items-center border-b-2 border-primary-3">
-                            <p className=" w-[25%]">Thời gian máy OFF</p>
-                            <h7 className=" w-[75%]">
+                        <div className=" w-full  flex items-center border-b-2 border-primary-3">
+                            <p className=" w-[30%]">Thời gian máy OFF</p>
+                            <h7 className=" w-[70%]">
                                 {latestShot
                                     ? secondsToTimeString(
                                           timeStringToSeconds(latestShot.totalOnTime) -
@@ -253,13 +319,54 @@ function UpdatedData() {
                                     : ""}
                             </h7>
                         </div>
-                        <div className=" w-full h-full flex items-center border-b-2 border-primary-3">
-                            <p className=" w-[25%]">Thời gian cập nhật</p>
-                            <h7 className=" w-[75%]">{latestShot ? latestShot.timeStamp : ""}</h7>
+                        <div className=" w-full  flex items-center border-b-2 border-primary-3">
+                            <p className=" w-[30%]">Thời gian cập nhật gần nhất</p>
+                            <h7 className=" w-[70%]">{latestShot ? latestShot.timeStamp : ""}</h7>
                         </div>
+                        <Button onClick={() => setIsOpenPopup(true)}>Lịch sử cập nhật dữ liệu</Button>
                     </div>
                 </Card>
             </div>
+            {isOpenPopup && (
+                <Card className={"w-[98%] h-[85%] absolute top-[10%] bg-neutron-4 z-20 p-[1%] "}>
+                    <div className="w-full h-[10%] flex ">
+                        <Button
+                            bg={"rgba(233,34,34,0.85)"}
+                            className={"  h-[55%] w-[5%]"}
+                            onClick={() => setIsOpenPopup(false)}
+                        >
+                            <IoMdCloseCircleOutline />
+                        </Button>
+                        <h2 className="block w-full text-center ">Lịch sử cập nhật dữ liệu</h2>
+                    </div>
+                    <Table
+                        activable
+                        primary
+                        sticky
+                        headers={manuHistoryShot_headers} //mảng tiêu đề
+                        body={tableData} //mảng dữ liệu
+                        className=" w-full"
+                        onEdit={handleEdit}
+                        onRowClick={handleTableRowClick}
+                        // onDeleteRow={handleDelete}
+                        enableIdClick
+                        // idClickFunction={(e, row, index) => {
+                        //     console.log(row)
+                        //     navigate(`/setting/Test`, { state: row })
+                        // }}
+                    />
+                </Card>
+            )}
+            {active && (
+                <PoperMenuNew
+                    position={position}
+                    onClose={handleClose}
+                    menuNavigaton={editShots()}
+                    onClick={handleSubmit}
+                    initValue={initValue ? initValue : undefined}
+                    activateValidation={false}
+                />
+            )}
         </div>
     )
 }

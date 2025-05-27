@@ -30,7 +30,7 @@ import ToggleButtons from "@/components/ToggleButtons"
 import TextInput from "@/components/TextInput"
 import { toggleManufacturing } from "@/utils/constants"
 import { IoMdCloseCircleOutline } from "react-icons/io"
-import logo from "@/assets/WembleyLogo.png"
+import logo from "@/assets/HCMUT_vientrang.png"
 import { useSelector } from "react-redux"
 
 function ManufacturingReport() {
@@ -101,17 +101,21 @@ function ManufacturingReport() {
         if (eachOrderInfor) {
             callApi(
                 [
-                    machineApi.shots.getWorkOrderShotAndInterval(eachOrderInfor.workOrderId, minute),
-                    machineApi.workOrders.getErrorByWorkOrderId(eachOrderInfor.workOrderId),
+                    machineApi.shots.getWorkOrderShotByIdAndStartTimeAndEndTime(
+                        eachOrderInfor.workOrderId,
+                        expectedStartTime,
+                        expectedEndTime,
+                    ),
+                    // machineApi.workOrders.getErrorByWorkOrderId(eachOrderInfor.workOrderId),
                 ],
 
                 (res) => {
                     setEachData(handleManufacturingFilterData(res[0].data))
-                    const formatData = handleDataError(res[1].data)
-                    setErrorTable(formatData)
-                    setErrorNameList(formatData.map((res) => res.stationId))
-                    setErrorDataList(formatData.map((res) => res.totalError))
-                    setErrorTimeList(formatData.map((res) => Number(res.totalErrorTimeStation).toFixed(0)))
+                    // const formatData = handleDataError(res[1].data)
+                    // setErrorTable(formatData)
+                    // setErrorNameList(formatData.map((res) => res.stationId))
+                    // setErrorDataList(formatData.map((res) => res.totalError))
+                    // setErrorTimeList(formatData.map((res) => Number(res.totalErrorTimeStation).toFixed(0)))
                 },
             )
         }
@@ -171,13 +175,13 @@ function ManufacturingReport() {
                 {/* <Button className={cl("")} bg={"green"} onClick={() => navigate("/manufacturing-report/productivity")}>
                     Truy xuất lệnh sản xuất từng ngày
                 </Button> */}
-                <Button
+                {/* <Button
                     className={cl("")}
                     bg={"blue"}
                     onClick={() => navigate("/manufacturing-report/head-of-machineLine")}
                 >
                     Truy xuất theo trưởng line
-                </Button>
+                </Button> */}
             </Card>
             {mode === 1 && (
                 <div className="absolute h-full w-full flex justify-center z-100">
@@ -257,7 +261,7 @@ function ManufacturingReport() {
                         colors={{
                             status: {
                                 "Hoàn thành": "bg-[rgba(60,179,113,0.85)] rounded-lg",
-                                "Chờ xử lý": "bg-[rgba(233,34,34,0.85)] rounded-lg",
+                                "Chờ xác nhận": "bg-[rgba(233,34,34,0.85)] rounded-lg",
                                 "Đang tiến hành": "bg-[rgba(0,155,250,0.85)] rounded-lg",
                                 "Tạm dừng": "bg-[rgba(250,175,36,0.85)] rounded-lg",
                             },
@@ -290,7 +294,7 @@ function ManufacturingReport() {
                 <div className=" h-[20%] w-full hidden print:block">
                     <div className=" flex ">
                         <div className=" w-[40%] flex justify-center items-center border-b-2 p-1">
-                            <img src={logo} alt="Logo" className="" />
+                            <img src={logo} alt="Logo" className="w-[30%]" />
                         </div>
                         <div className=" w-[0.2%] flex justify-center items-center border-b-2 bg-neutron-1"></div>
 

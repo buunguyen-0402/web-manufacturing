@@ -107,7 +107,10 @@ function LineOverview() {
                         res[0].data.map((res) => ({ y: res.productivity, x: String(res.timeStamp).slice(11, 19) })),
                     )
                     setArrayOEE(
-                        res[0].data.map((res) => ({ y: res.oee.toFixed(1), x: String(res.timeStamp).slice(11, 19) })),
+                        res[0].data.map((res) => ({
+                            y: (res.oee * 100).toFixed(1),
+                            x: String(res.timeStamp).slice(11, 19),
+                        })),
                     )
                     setShotsData(res[0].data)
                 },
