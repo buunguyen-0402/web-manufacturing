@@ -213,9 +213,9 @@ function Dashboard() {
             //tạo dữ liệu cho biểu đồ donut
             const value = [0, 0, 0, 0]
             allWorkOrder.workOrders.forEach((workOrder) => {
-                if (workOrder.status === "Chờ xử lý") {
+                if (workOrder.status === "Chờ xác nhận") {
                     value[0]++
-                } else if (workOrder.status === "Đang tiến hành") {
+                } else if (workOrder.status === "Đang thực hiện") {
                     value[1]++
                 } else if (workOrder.status === "Tạm dừng") {
                     value[2]++
@@ -418,7 +418,7 @@ function Dashboard() {
                 </div>
             </Card>
             <div className={cl(" h-[20%] w-full flex justify-between")}>
-                <Card className={cl(" h-full w-[28%] flex flex-col items-center bg-neutron-4")}>
+                <Card className={cl(" h-full w-[48.5%] flex flex-col items-center bg-neutron-4")}>
                     <h3>Biểu đồ tổng các lệnh sản xuất</h3>
                     <div className=" h-full w-full">
                         <PieDonutChart
@@ -439,7 +439,7 @@ function Dashboard() {
                         />
                     </div>
                 </Card>
-                <Card className={cl(" h-full w-[35%] bg-neutron-4")}>
+                <Card className={cl(" h-full w-[50%] bg-neutron-4")}>
                     <h3 className=" text-center">Tổng sản lượng các lệnh sản xuất</h3>
                     <div className=" h-[88%] w-full pl-1 overflow-y-scroll">
                         {lineIdData &&
@@ -478,7 +478,7 @@ function Dashboard() {
                             ))}
                     </div>
                 </Card>
-                <Card className={cl(" h-full w-[35%] flex flex-col p-1 overflow-scroll bg-neutron-4")}>
+                {/* <Card className={cl(" h-full w-[35%] flex flex-col p-1 overflow-scroll bg-neutron-4")}>
                     <h3 className=" text-center">Mức độ hiệu quả sử dụng của từng dây chuyền</h3>
                     <SelectInput
                         label="Dây chuyền sản xuất"
@@ -509,8 +509,8 @@ function Dashboard() {
                         type="dayEnd"
                         dayCompare={expectedStartTime}
                         className={" h-[10%] w-full"}
-                    />
-                    {/* <div className=" h-[10%] w-full flex">
+                    /> */}
+                {/* <div className=" h-[10%] w-full flex">
                         <h6 className=" w-[45%]">Từ ngày:</h6>
                         <h7>{startDate}</h7>
                     </div>
@@ -518,7 +518,7 @@ function Dashboard() {
                         <h6 className=" w-[45%]">Đến ngày:</h6>
                         <h7>{endDate}</h7>
                     </div> */}
-                    {avaliability.length > 0 && (
+                {/* {avaliability.length > 0 && (
                         <>
                             <div className=" h-[10%] w-full flex">
                                 <h6 className=" w-[45%]">Tổng:</h6>
@@ -546,7 +546,7 @@ function Dashboard() {
                             </div>
                         </>
                     )}
-                </Card>
+                </Card> */}
             </div>
             <Card className={cl(" relative h-[29.5%] w-full flex  overflow-y-scroll bg-neutron-3")}>
                 <div className=" h-full w-full flex flex-wrap items-center gap-[1%]">
